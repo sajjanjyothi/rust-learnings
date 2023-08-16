@@ -8,12 +8,12 @@ use std::thread;
 use std::thread::sleep;
 #[allow(unused_imports)]
 use std::time::Duration;
-use component::test_package::{HomeError};
+use component::test_package::{CheckError};
 use component::checker::Sajjan;
 
 mod component;
 
-fn main() -> Result<(),HomeError> {
+fn main() -> Result<(), CheckError> {
     let array :[i32;5] = [1,2,3,4,5];
     //vector
     let  mut my_vec:Vec<Sajjan> = Vec::new();

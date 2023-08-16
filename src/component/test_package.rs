@@ -1,6 +1,6 @@
 #[derive(Debug)]
 #[allow(unused)]
-pub enum HomeError {
+pub enum CheckError {
     Good,
     Bad(i32,bool),
 }
@@ -10,9 +10,9 @@ pub fn say_hello() -> String {
     String::from("sajjan")
 }
 
-pub fn check_value() -> Result<bool, HomeError> {
+pub fn check_value() -> Result<bool, CheckError> {
     // Err(HomeError::Good)
-    Err(HomeError::Bad(35,false))
+    Err(CheckError::Bad(35, false))
     //Ok((true))
 }
 
