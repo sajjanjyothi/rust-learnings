@@ -14,6 +14,12 @@ use component::checker::{Checker,Sajjan,new};
 mod component;
 
 fn main() -> Result<(), CheckError> {
+
+    //type conversion
+    let a:i32 = 10;
+    let b = a as u8;
+
+    //array declaration
     let array :[i32;5] = [1,2,3,4,5];
     //vector
     let  mut my_vec:Vec<Sajjan> = Vec::new();
@@ -35,7 +41,7 @@ fn main() -> Result<(), CheckError> {
     println!("map value --- {}",map_value);
 
     let map_value = map_details.get("test2");
-
+    println!("contains --- {}",map_details.contains_key("test1-ooo"));
     //match check
     let val = match map_value {
         None => {String::from("ah no string")}
@@ -88,6 +94,17 @@ fn main() -> Result<(), CheckError> {
     for val in my_vec{
         println!("{:?}",val)
     }
+    //move syntax , will get compilation error
+   // thread::spawn(move ||{ println!("{}",map_details.get("test1").unwrap())});
+    for val in  map_details {
+        println!("{} -- {}",val.0,val.1);
+    }
+    sajjan_macro!("I am here hello world");
+
+    //Box allocation - memory allocation
+    let mut sajjan_ptr = Box::new(Sajjan{ name: "sajjan".to_string(), age: 0 });
+    sajjan_ptr.age = 43;
+    println!("{:?}",sajjan_ptr);
     Ok(())
 }
 

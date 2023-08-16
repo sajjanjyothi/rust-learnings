@@ -20,6 +20,13 @@ pub fn check_borrow(val: &String) {
     println!("{}", val);
 }
 
+//functional test
+#[test]
+fn test_say_hello() {
+    assert_eq!(say_hello(), "sajjan")
+}
+
+//modular tests
 #[cfg(test)]
 mod tests {
     use super::*;
