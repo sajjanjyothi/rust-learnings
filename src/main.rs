@@ -3,7 +3,7 @@ use std::sync::Mutex;
 use std::fs::File;
 use std::io::Read;
 use std::sync::mpsc::{channel, Receiver, Sender};
-use std::thread;
+use std::{env, thread};
 #[allow(unused_imports)]
 use std::thread::sleep;
 #[allow(unused_imports)]
@@ -14,7 +14,19 @@ use component::checker::{Checker,Sajjan,new};
 mod component;
 
 fn main() -> Result<(), CheckError> {
+    //command line args
+    let args: Vec<String> = env::args().collect();
 
+    println!("command line args --- {:?}",args);
+
+    //environment variable
+    env::set_var("TEST_SAJJAN","HELLO");
+    println!("env variable {}", env::var("TEST_SAJJAN").unwrap_or("default".to_string()));
+    println!("env variable {}", env::var("TEST_SAJJAN_NOTSET").unwrap_or("default".to_string()));
+    //infinite loop
+    // loop{
+    //
+    // }
     //type conversion
     let a:i32 = 10;
     let b = a as u8;
