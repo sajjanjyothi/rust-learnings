@@ -8,8 +8,8 @@ use std::thread;
 use std::thread::sleep;
 #[allow(unused_imports)]
 use std::time::Duration;
-use component::test_package::{CheckError};
-use component::checker::Sajjan;
+use component::test_package::{CheckError,say_hello,check_borrow, check_value};
+use component::checker::{Checker,Sajjan,new};
 
 mod component;
 
@@ -34,20 +34,35 @@ fn main() -> Result<(), CheckError> {
     let map_value = map_details.get("test1").unwrap();
     println!("map value --- {}",map_value);
 
+    let map_value = map_details.get("test2");
+
+    //match check
+    let val = match map_value {
+        None => {String::from("ah no string")}
+        Some(value) => {value.to_string()}
+    };
+    println!("{:?}",val);
+
+    //unwrap or default value
+    let val = map_value.unwrap_or(&"no value".to_string()).to_string();
+    println!("{:?}",val);
+
     let (send,rcv): (Sender<i32>,Receiver<i32>) = channel();
-    send.send(34).unwrap();
+    send.send(31).unwrap();
     send.send(35).unwrap();
     let mt = Mutex::new("sajjan test");
     let s1 = mt.lock().unwrap();
     println!("Hello, world!");
     eprintln!("sajjan here");
-    println!("{}", component::test_package::say_hello());
-    let val = component::test_package::check_value().or_else(|_| {Ok(true)})?;
+
+    println!("{}", say_hello());
+    let val = check_value().or_else(|_| {Ok(true)})?;
+
     println!("{}",val);
     let s = String::from("my value");
-    component::test_package::check_borrow(&s);
+    check_borrow(&s);
     println!("after borrow {}",s1);
-    let sajjan_obj = component::checker::new("sajjan jyothi".to_string());
+    let sajjan_obj = new("sajjan jyothi".to_string());
     checker(sajjan_obj);
     println!("---------------file contents---------------");
     println!("{}",read_file("sajjan.txt".to_string()));
@@ -76,7 +91,7 @@ fn main() -> Result<(), CheckError> {
     Ok(())
 }
 
-fn checker(check : impl component::checker::Checker){
+fn checker(check : impl Checker){
     let name = check.get_name();
     check.check_these(name.to_string());
 }
