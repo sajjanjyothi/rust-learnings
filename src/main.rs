@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, LinkedList};
 use std::sync::Mutex;
 use std::fs::File;
 use std::io::Read;
@@ -47,6 +47,15 @@ fn main() -> Result<(), CheckError> {
 
     //hash map
     let mut map_details = HashMap::new();
+    let mut my_list = LinkedList::new();
+
+    my_list.push_back(3);
+    my_list.push_back(4);
+
+    for val in my_list{
+        println!("list -- {}",val);
+    }
+
     //key value
     map_details.insert("test1".to_string(),"test2".to_string());
     let map_value = map_details.get("test1").unwrap();
@@ -68,6 +77,12 @@ fn main() -> Result<(), CheckError> {
     let (send,rcv): (Sender<i32>,Receiver<i32>) = channel();
     send.send(31).unwrap();
     send.send(35).unwrap();
+    let struct_mt = Mutex::new(Sajjan{
+        name: "test6".to_string(),
+        age: 43,
+    });
+    let smt = struct_mt.lock().unwrap();
+    println!("{}",smt.name);
     let mt = Mutex::new("sajjan test");
     let s1 = mt.lock().unwrap();
     println!("Hello, world!");
@@ -117,6 +132,9 @@ fn main() -> Result<(), CheckError> {
     let mut sajjan_ptr = Box::new(Sajjan{ name: "sajjan".to_string(), age: 0 });
     sajjan_ptr.age = 43;
     println!("{:?}",sajjan_ptr);
+    let val = 67;
+    let ref_check_value = life_time_check(&val);
+    println!("{}",ref_check_value);
     Ok(())
 }
 
@@ -130,4 +148,8 @@ fn read_file(filename: String) -> String{
     let mut f = File::open(filename).expect("cannot found file");
     f.read_to_string(&mut s).expect("file read filed");
     s
+}
+
+fn life_time_check<'a>(s :& 'a i32 ) -> & i32{
+     s
 }

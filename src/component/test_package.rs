@@ -7,7 +7,7 @@ pub enum CheckError {
 
 /// say hello is a simple function
 pub fn say_hello() -> String {
-    String::from("sajjan")
+    "sajjan".to_string()
 }
 
 pub fn check_value() -> Result<bool, CheckError> {
